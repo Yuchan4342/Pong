@@ -1,24 +1,26 @@
 package com.o_char.pong;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.IOException;
 import java.net.Socket;
 
-/* 受信用クラス */
+/**
+ * 受信用クラス.
+ */
 final class PongReceiver implements Runnable {
   private PongController pongController;
   private Socket socket;
   private BufferedReader bfr;
   private boolean isReading;
-  private int i;
+  private int index;
 
   private PongReceiver(PongController npc, Socket nsocket, BufferedReader nbfr, int ni) {
     this.pongController = npc;
     this.socket = nsocket;
     this.bfr = nbfr;
-    this.i = ni;
+    this.index = ni;
     this.isReading = true;
   }
 
@@ -48,7 +50,7 @@ final class PongReceiver implements Runnable {
 
     while (this.getReading()) {
       if (this.bfr == null) {
-        this.pongController.terminateConnection(i);
+        this.pongController.terminateConnection(index);
         break;
       }
 
@@ -58,30 +60,33 @@ final class PongReceiver implements Runnable {
       } catch (IOException ioe) {
         // 異常終了
         ioe.printStackTrace();
-        this.pongController.terminateConnection(i);
+        this.pongController.terminateConnection(index);
         break;
       }
 
       // 相手から接続が切れた場合
       if (line == null) {
-        this.pongController.terminateConnection(i);
+        this.pongController.terminateConnection(index);
         break;
       }
 
       // "END"を受信した場合
       if (line.equals("END")) {
-        this.pongController.terminateConnection(i);
+        this.pongController.terminateConnection(index);
         break;
       }
 
-      this.pongController.receive(line, this.i);
+      this.pongController.receive(line, this.index);
     }
 
     // 終了処理
     if (this.bfr != null) {
       try {
-        if (this.i != -1) System.out.println("Closing : Receiving Buffer[" + this.i + "] = " + this.bfr);
-        else System.out.println("Closing : Receiving Buffer = " + this.bfr);
+        if (this.index != -1) {
+          System.out.println("Closing : Receiving Buffer[" + this.index + "] = " + this.bfr);
+        } else {
+          System.out.println("Closing : Receiving Buffer = " + this.bfr);
+        }
         this.bfr.close();
       } catch (IOException ioe) {
         // Do nothing.
