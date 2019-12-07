@@ -4,60 +4,61 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 
 // バー
-public class Bar extends Rectangle {
-	private Dimension v;
+public final class Bar extends Rectangle {
+  private Dimension velocity;
 
-	public Bar(int nx, int ny, int nwidth, int nheight) {
-		super(nx, ny, nwidth, nheight);
-		v = new Dimension(0, 0);
-	}
+  public Bar(final int nx, final int ny, final int newWidth, final int newHeight) {
+    super(nx, ny, newWidth, newHeight);
+    velocity = new Dimension(0, 0);
+  }
 
-	public void setV(Dimension nv) {
-		v.width = nv.width;
-		v.height = nv.height;
-	}
+  public void setVelocity(final Dimension newVelocity) {
+    velocity.width = newVelocity.width;
+    velocity.height = newVelocity.height;
+  }
 
-	public void setV(int nwidth, int nheight) {
+  public void setVelocity(final int newX, final int newY) {
+    velocity.width = newX;
+    velocity.height = newY;
+  }
 
-		v.width = nwidth;
-		v.height = nheight;
-	}
+  public void setVelocityX(final int newX) {
+    velocity.width = newX;
+  }
 
-	public void setVX(int nwidth) {
-		v.width = nwidth;
-	}
+  public void setVelocityY(final int newY) {
+    velocity.height = newY;
+  }
 
-	public void setVY(int nheight) {
-		v.height = nheight;
-	}
+  public Dimension getVelocity() {
+    return velocity;
+  }
 
-	public Dimension getV() {
-		return v;
-	}
+  public int getVelocityX() {
+    return velocity.width;
+  }
 
-	public int getVX() {
-		return v.width;
-	}
+  public int getVelocityY() {
+    return velocity.height;
+  }
 
-	public int getVY() {
-		return v.height;
-	}
+  public void translate() {
+    translate(velocity.width, velocity.height);
+  }
 
-	public void translate() {
-		translate(v.width, v.height);
-	}
+  /**
+   * 次の時間でのバーの位置.
+   * @return 次の時間でのバーの位置を表した Bar インスタンス.
+   */
+  public Bar next() {
+    return new Bar(x + velocity.width, y + velocity.height, width, height);
+  }
 
-	// 次の時間でのバーの位置
-	public Bar next() {
-		return new Bar(x + v.width, y + v.height, width, height);
+  public void boundX() {
+    velocity.width = -velocity.width;
+  }
 
-	}
-
-	public void BoundX() {
-		v.width = -v.width;
-	}
-
-	public void BoundY() {
-		v.height = -v.height;
-	}
+  public void boundY() {
+    velocity.height = -velocity.height;
+  }
 }
