@@ -35,6 +35,9 @@ public class SelectFrame extends JFrame implements ActionListener {
   private MenuItem[] menuItem;
   private final String[] menuItemString = {"Create Server", "Create Client"};
 
+  /**
+   * Constructor.
+   */
   public SelectFrame() {
     this.setTitle(FRAME_TITLE); // Settting Title
     this.setSize(FRAME_SIZE); // サイズの設定
@@ -81,8 +84,8 @@ public class SelectFrame extends JFrame implements ActionListener {
     this.btn[1].setPreferredSize(BUTTON_SIZE);
     this.btn[1].addActionListener(this);
 
-    for (int i = 0; i < this.btn.length; i++) {
-      this.btn[i].setFont(new Font("", Font.PLAIN, 40));
+    for (JButton button : this.btn) {
+      button.setFont(new Font("", Font.PLAIN, 40));
     }
 
     ClassLoader cl = this.getClass().getClassLoader();
@@ -92,8 +95,8 @@ public class SelectFrame extends JFrame implements ActionListener {
 
     this.lowerPanel = new JPanel();
     this.lowerPanel.setLayout(new GridLayout(1, this.btn.length));
-    for (int i = 0; i < this.btn.length; i++) {
-      this.lowerPanel.add(this.btn[i]);
+    for (JButton button : this.btn) {
+      this.lowerPanel.add(button);
     }
 
     // container
@@ -104,12 +107,12 @@ public class SelectFrame extends JFrame implements ActionListener {
   }
 
   public void actionPerformed(ActionEvent e) {
-    Object obj = e.getSource();
-    for (int i = 0; i < this.btn.length; i++) {
-      this.btn[i].setEnabled(false);
+    for (JButton button : this.btn) {
+      button.setEnabled(false);
     }
     System.out.println("Closing: Select Frame");
     this.setVisible(false);
+    Object obj = e.getSource();
     if (obj == this.btn[0]) {
       PongServer server = new PongServer();
       if (server.startFrame != null) {
