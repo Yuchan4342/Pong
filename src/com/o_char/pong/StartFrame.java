@@ -116,7 +116,7 @@ public class StartFrame extends JFrame implements ActionListener {
       this.isBtnPushed = true;
     } else if (obj == this.menuItem[0]) {
       PongServer server = new PongServer();
-      if (server.sFrame != null) {
+      if (server.startFrame != null) {
         Thread thread = new Thread(server);
         thread.start();
       }

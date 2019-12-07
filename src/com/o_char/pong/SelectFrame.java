@@ -112,7 +112,7 @@ public class SelectFrame extends JFrame implements ActionListener {
     this.setVisible(false);
     if (obj == this.btn[0]) {
       PongServer server = new PongServer();
-      if (server.sFrame != null) {
+      if (server.startFrame != null) {
         Thread thread = new Thread(server);
         thread.start();
       }
@@ -122,7 +122,7 @@ public class SelectFrame extends JFrame implements ActionListener {
       thread.start();
     } else if (obj == this.menuItem[0]) {
       PongServer server = new PongServer();
-      if (server.sFrame != null) {
+      if (server.startFrame != null) {
         Thread thread = new Thread(server);
         thread.start();
       }
